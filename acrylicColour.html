@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acrylic Colours</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Acrylic Colours</h1>
+        <a href="index.html">Back to Home</a>
+  <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search items..." onkeyup="searchItems()">
+            <button onclick="searchItems()">Search</button>
+        </div>
+    </header>
+  <div class="sorting">
+        <label for="sort">Sort by: </label>
+        <select id="sort" onchange="sortItems()">
+            <option value="low-high">Price: Low to High</option>
+            <option value="high-low">Price: High to Low</option>
+        </select>
+    </div>
+    <p>Find the best acrylic paints for your art projects.</p>
+ <div class="items">
+            <div class="item" onclick="openModal('camel acrylic-colour', 'High-quality markers for all your art needs.', 'camel acrylic-colour.jpg', 120)">
+                <img src="camel acrylic-colour.jpg" alt="camel acrylic-colour">
+                <h3>camel acrylic-colour</h3>
+                <p class="price">120 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+  <div class="item" onclick="openModal('mont marte acrylic paint', 'Soft bristle paintbrush for smooth strokes.', 'mont marte acrylic paint.jpg', 110)">
+                <img src="mont marte acrylic paint.jpg" alt="mont marte acrylic paint">
+                <h3>Mont Marte Acrylic Paint</h3>
+                <p class="price">110 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+ <div class="item" onclick="openModal('levin acrylic', 'Soft bristle paintbrush for smooth strokes.', 'levin acrylic.jpg', 125)">
+                <img src="levin acrylic.jpg" alt="levin acrylic">
+                <h3>levin acrylic</h3>
+                <p class="price">125 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+ <div class="item" onclick="openModal('fevicryl acrylic colour pastel colour', 'Soft bristle paintbrush for smooth strokes.', 'fevicryl acrylic colour pastel colour.jpg', 150)">
+                <img src="fevicryl acrylic colour pastel colour.jpg" alt="fevicryl acrylic colour pastel colour">
+                <h3>fevicryl acrylic colour pastel colour</h3>
+                <p class="price">150 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+ <div class="item" onclick="openModal('Camel Acrylic Colour Tubes', 'Soft bristle paintbrush for smooth strokes.', 'Camel Acrylic Colour Tubes.jpg', 110)">
+                <img src="Camel Acrylic Colour Tubes.jpg" alt="Camel Acrylic Colour Tubes">
+                <h3>Camel Acrylic Colour Tubes</h3>
+                <p class="price">110 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+
+</div>
+ <!-- Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="productTitle"></h2>
+            <img id="productImage" src="" alt="Product Image" class="modal-img">
+            <p id="productDescription"></p>
+            <p id="productPrice" class="product-price"></p>
+            
+            <div class="quantity-wrapper">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" value="1" min="1">
+            </div>
+            
+            <button class="cart-btn" onclick="addToCart()">🛒 Add to Cart</button>
+            <button class="buy-btn" onclick="buyNow()">Buy Now</button>
+        </div>
+    </div>
+    
+    <script>
+        function searchItems() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let items = document.querySelectorAll(".item");
+            items.forEach(item => {
+                let title = item.querySelector("h3").innerText.toLowerCase();
+                item.style.display = title.includes(input) ? "block" : "none";
+            });
+        }
+
+       function sortItems() {
+            let itemsContainer = document.querySelector(".items");
+            let items = Array.from(itemsContainer.getElementsByClassName("item"));
+
+            let sortOrder = document.getElementById("sort").value;
+
+            items.sort((a, b) => {
+                let priceA = parseInt(a.querySelector(".price").innerText.replace(" Rs", ""));
+                let priceB = parseInt(b.querySelector(".price").innerText.replace(" Rs", ""));
+
+                return sortOrder === "low-high" ? priceA - priceB : priceB - priceA;
+            });
+
+            itemsContainer.innerHTML = "";
+            items.forEach(item => itemsContainer.appendChild(item));
+        }
+
+        function openModal(title, description, image, price) {
+            document.getElementById("productTitle").innerText = title;
+            document.getElementById("productDescription").innerText = description;
+            document.getElementById("productImage").src = image;
+            document.getElementById("productPrice").innerText = price + " Rs";
+            document.getElementById("quantity").value = 1;
+            document.getElementById("productModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("productModal").style.display = "none";
+        }
+
+        function addToCart() {
+            let title = document.getElementById("productTitle").innerText;
+            let price = document.getElementById("productPrice").innerText;
+            let image = document.getElementById("productImage").src;
+            let quantity = document.getElementById("quantity").value;
+            
+            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            let existingItem = cartItems.find(item => item.title === title);
+            
+            if (existingItem) {
+                existingItem.quantity = parseInt(existingItem.quantity) + parseInt(quantity);
+            } else {
+                cartItems.push({ title, price, image, quantity });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cartItems));
+            alert("Product added to cart!");
+        }
+function buyNow() {
+    let title = document.getElementById('productTitle').innerText;
+    let price = document.getElementById('productPrice').innerText.replace(" Rs", "");
+    let image = document.getElementById('productImage').src;
+    let quantity = document.getElementById('quantity').value;
+
+    window.location.href = `checkout.html?title=${encodeURIComponent(title)}&image=${encodeURIComponent(image)}&price=${price}&quantity=${quantity}`;
+}
+
+    </script>
+</body>
+</html>
+
+

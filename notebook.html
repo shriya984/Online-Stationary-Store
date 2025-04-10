@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notebooks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Notebooks</h1>
+        <a href="index.html">Back to Home</a>
+  <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search items..." onkeyup="searchItems()">
+            <button onclick="searchItems()">Search</button>
+        </div>
+    </header>
+<div class="sorting">
+        <label for="sort">Sort by: </label>
+        <select id="sort" onchange="sortItems()">
+            <option value="low-high">Price: Low to High</option>
+            <option value="high-low">Price: High to Low</option>
+        </select>
+    </div>
+
+
+    <p>Find the best Notebooks for your art projects.</p>
+ <div class="items">
+            <div class="item" onclick="openModal('spiral-notebook', 'High-quality markers for all your art needs.', 'spiral-notebook.jpg', 85)">
+                <img src="spiral-notebook.jpg" alt="spiral-notebook">
+                <h3>Spiral Notebook</h3>
+                <p class="price">85 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+  <div class="item" onclick="openModal('classmate Notebook', 'Soft bristle paintbrush for smooth strokes.', 'classmate Notebook.jpg', 120)">
+                <img src="classmate Notebook.jpg" alt="classmate Notebook">
+                <h3>Classmate Notebook</h3>
+                <p class="price">120 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+<div class="item" onclick="openModal('Doms notebook', 'Soft bristle paintbrush for smooth strokes.', 'Doms notebook.jpg', 150)">
+                <img src="Doms notebook.jpg" alt="Doms notebook">
+                <h3>Doms notebook</h3>
+                <p class="price">150 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+<div class="item" onclick="openModal('camlin Notebook', 'Soft bristle paintbrush for smooth strokes.', 'camlin Notebook.jpg',135)">
+                <img src="camlin Notebook.jpg" alt="camlin Notebook">
+                <h3>camlin Notebook</h3>
+                <p class="price">135 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+<div class="item" onclick="openModal('classmate smallsize notebook', 'Soft bristle paintbrush for smooth strokes.', 'classmate smallsize notebook.jpg',85)">
+                <img src="classmate smallsize notebook.jpg" alt="classmate smallsize notebook">
+                <h3>classmate smallsize notebook</h3>
+                <p class="price">85 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+<div class="item" onclick="openModal('Oxford diary', 'Soft bristle paintbrush for smooth strokes.', 'Oxford diary.jpg',100)">
+                <img src="Oxford diary.jpg" alt="Oxford diary">
+                <h3>Oxford diary</h3>
+                <p class="price">100 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+<div class="item" onclick="openModal('customize diaries', 'Soft bristle paintbrush for smooth strokes.', 'customize diaries.jpg',100)">
+                <img src="customize diaries.jpg" alt="customize diaries">
+                <h3>Customize diaries</h3>
+                <p class="price">100Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+
+</div>
+<!-- Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="productTitle"></h2>
+            <img id="productImage" src="" alt="Product Image" class="modal-img">
+            <p id="productDescription"></p>
+            <p id="productPrice" class="product-price"></p>
+            
+            <div class="quantity-wrapper">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" value="1" min="1">
+            </div>
+            
+            <button class="cart-btn" onclick="addToCart()">🛒 Add to Cart</button>
+            <button class="buy-btn" onclick="buyNow()">Buy Now</button>
+        </div>
+    </div>
+    
+    <script>
+        function searchItems() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let items = document.querySelectorAll(".item");
+            items.forEach(item => {
+                let title = item.querySelector("h3").innerText.toLowerCase();
+                item.style.display = title.includes(input) ? "block" : "none";
+            });
+        }
+
+       function sortItems() {
+            let itemsContainer = document.querySelector(".items");
+            let items = Array.from(itemsContainer.getElementsByClassName("item"));
+
+            let sortOrder = document.getElementById("sort").value;
+
+            items.sort((a, b) => {
+                let priceA = parseInt(a.querySelector(".price").innerText.replace(" Rs", ""));
+                let priceB = parseInt(b.querySelector(".price").innerText.replace(" Rs", ""));
+
+                return sortOrder === "low-high" ? priceA - priceB : priceB - priceA;
+            });
+
+            itemsContainer.innerHTML = "";
+            items.forEach(item => itemsContainer.appendChild(item));
+        }
+
+        function openModal(title, description, image, price) {
+            document.getElementById("productTitle").innerText = title;
+            document.getElementById("productDescription").innerText = description;
+            document.getElementById("productImage").src = image;
+            document.getElementById("productPrice").innerText = price + " Rs";
+            document.getElementById("quantity").value = 1;
+            document.getElementById("productModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("productModal").style.display = "none";
+        }
+
+        function addToCart() {
+            let title = document.getElementById("productTitle").innerText;
+            let price = document.getElementById("productPrice").innerText;
+            let image = document.getElementById("productImage").src;
+            let quantity = document.getElementById("quantity").value;
+            
+            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            let existingItem = cartItems.find(item => item.title === title);
+            
+            if (existingItem) {
+                existingItem.quantity = parseInt(existingItem.quantity) + parseInt(quantity);
+            } else {
+                cartItems.push({ title, price, image, quantity });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cartItems));
+            alert("Product added to cart!");
+        }
+function buyNow() {
+    let title = document.getElementById('productTitle').innerText;
+    let price = document.getElementById('productPrice').innerText.replace(" Rs", "");
+    let image = document.getElementById('productImage').src;
+    let quantity = document.getElementById('quantity').value;
+
+    window.location.href = `checkout.html?title=${encodeURIComponent(title)}&image=${encodeURIComponent(image)}&price=${price}&quantity=${quantity}`;
+}
+
+    </script>
+</body>
+</html>

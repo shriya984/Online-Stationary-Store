@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Checkout</h1>
+    </header>
+
+    <div class="checkout-container">
+        <h2>Order Summary</h2>
+        <div class="product-details">
+            <img id="checkoutImage" src="" alt="Product Image">
+            <div class="info">
+                <h3 id="checkoutTitle"></h3>
+                <p id="checkoutPrice"></p>
+                <div class="quantity-selector">
+                    <button onclick="changeQuantity(-1)">-</button>
+                    <input type="number" id="checkoutQuantity" value="1" min="1">
+                    <button onclick="changeQuantity(1)">+</button>
+                </div>
+                <p>Total: <span id="totalPrice"></span> Rs</p>
+            </div>
+        </div>
+        <button class="buy-btn" onclick="processPayment()">Proceed to Payment</button>
+    </div>
+
+    <script>
+        // Get product details from URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get("title");
+        const image = params.get("image");
+        const price = parseInt(params.get("price"));
+
+        // Set product details on page
+        document.getElementById("checkoutTitle").innerText = title;
+        document.getElementById("checkoutImage").src = image;
+        document.getElementById("checkoutPrice").innerText = price + " Rs";
+        document.getElementById("totalPrice").innerText = price;
+
+        // Quantity change function
+        function changeQuantity(amount) {
+            let qtyInput = document.getElementById("checkoutQuantity");
+            let newQty = parseInt(qtyInput.value) + amount;
+            if (newQty >= 1) {
+                qtyInput.value = newQty;
+                document.getElementById("totalPrice").innerText = newQty * price;
+            }
+        }
+
+        // Proceed to payment
+      function processPayment() {
+    let title = document.getElementById("checkoutTitle").innerText;
+    let image = document.getElementById("checkoutImage").src; // Ensure correct image URL
+    let price = document.getElementById("totalPrice").innerText;
+    let quantity = document.getElementById("checkoutQuantity").value;
+
+    // Redirect to payment page with parameters
+    window.location.href = `payment.html?title=${encodeURIComponent(title)}&image=${encodeURIComponent(image)}&price=${price}&quantity=${quantity}`;
+}
+
+    </script>
+</body>
+</html>

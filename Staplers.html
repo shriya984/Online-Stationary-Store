@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staplers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Staplers</h1>
+        <a href="index.html">Back to Home</a>
+  <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search items..." onkeyup="searchItems()">
+            <button onclick="searchItems()">Search</button>
+        </div>
+    </header>
+  <div class="sorting">
+        <label for="sort">Sort by: </label>
+        <select id="sort" onchange="sortItems()">
+            <option value="low-high">Price: Low to High</option>
+            <option value="high-low">Price: High to Low</option>
+        </select>
+    </div>
+
+
+    <p>Find the best Staplers for your office works</p>
+ <div class="items">
+            <div class="item" onclick="openModal('small stapler', 'High-quality markers for all your art needs.', 'small stapler.jpg', 150)">
+                <img src="small stapler.jpg" alt="small stapler">
+                <h3>small stapler</h3>
+                <p class="price">150 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+  <div class="item" onclick="openModal('Desktop stapler', 'Soft bristle paintbrush for smooth strokes.', 'Desktop stapler.jpg', 200)">
+                <img src="Desktop stapler.jpg" alt="Desktop stapler">
+                <h3>Desktop Stapler</h3>
+                <p class="price">200 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+<div class="item" onclick="openModal('heavy Duty Stapler', 'Soft bristle paintbrush for smooth strokes.', 'heavy Duty Stapler.jpg', 250)">
+                <img src="heavy Duty Stapler.jpg" alt="heavy Duty Stapler">
+                <h3>heavy Duty Stapler</h3>
+                <p class="price">250 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+<div class="item" onclick="openModal('Flat Clinch Stapler', 'Soft bristle paintbrush for smooth strokes.', 'Flat Clinch Stapler.jpg', 300)">
+                <img src="Flat Clinch Stapler.jpg" alt="Flat Clinch Stapler">
+                <h3>Flat Clinch Stapler</h3>
+                <p class="price">300 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+<div class="item" onclick="openModal('steel stapler', 'Soft bristle paintbrush for smooth strokes.', 'steel stapler.jpg', 150)">
+                <img src="steel stapler.jpg" alt="steel stapler">
+                <h3>Steel Stapler</h3>
+                <p class="price">150 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+</div>
+ <!-- Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="productTitle"></h2>
+            <img id="productImage" src="" alt="Product Image" class="modal-img">
+            <p id="productDescription"></p>
+            <p id="productPrice" class="product-price"></p>
+            
+            <div class="quantity-wrapper">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" value="1" min="1">
+            </div>
+            
+            <button class="cart-btn" onclick="addToCart()">🛒 Add to Cart</button>
+            <button class="buy-btn" onclick="buyNow()">Buy Now</button>
+        </div>
+    </div>
+    
+    <script>
+        function searchItems() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let items = document.querySelectorAll(".item");
+            items.forEach(item => {
+                let title = item.querySelector("h3").innerText.toLowerCase();
+                item.style.display = title.includes(input) ? "block" : "none";
+            });
+        }
+
+       function sortItems() {
+            let itemsContainer = document.querySelector(".items");
+            let items = Array.from(itemsContainer.getElementsByClassName("item"));
+
+            let sortOrder = document.getElementById("sort").value;
+
+            items.sort((a, b) => {
+                let priceA = parseInt(a.querySelector(".price").innerText.replace(" Rs", ""));
+                let priceB = parseInt(b.querySelector(".price").innerText.replace(" Rs", ""));
+
+                return sortOrder === "low-high" ? priceA - priceB : priceB - priceA;
+            });
+
+            itemsContainer.innerHTML = "";
+            items.forEach(item => itemsContainer.appendChild(item));
+        }
+
+        function openModal(title, description, image, price) {
+            document.getElementById("productTitle").innerText = title;
+            document.getElementById("productDescription").innerText = description;
+            document.getElementById("productImage").src = image;
+            document.getElementById("productPrice").innerText = price + " Rs";
+            document.getElementById("quantity").value = 1;
+            document.getElementById("productModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("productModal").style.display = "none";
+        }
+
+        function addToCart() {
+            let title = document.getElementById("productTitle").innerText;
+            let price = document.getElementById("productPrice").innerText;
+            let image = document.getElementById("productImage").src;
+            let quantity = document.getElementById("quantity").value;
+            
+            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            let existingItem = cartItems.find(item => item.title === title);
+            
+            if (existingItem) {
+                existingItem.quantity = parseInt(existingItem.quantity) + parseInt(quantity);
+            } else {
+                cartItems.push({ title, price, image, quantity });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cartItems));
+            alert("Product added to cart!");
+        }
+function buyNow() {
+    let title = document.getElementById('productTitle').innerText;
+    let price = document.getElementById('productPrice').innerText.replace(" Rs", "");
+    let image = document.getElementById('productImage').src;
+    let quantity = document.getElementById('quantity').value;
+
+    window.location.href = `checkout.html?title=${encodeURIComponent(title)}&image=${encodeURIComponent(image)}&price=${price}&quantity=${quantity}`;
+}
+
+    </script>
+</body>
+</html>

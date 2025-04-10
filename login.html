@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('user-icon.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 350px;
+            position: relative;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        label {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            margin: 10px 0 5px;
+            color: #444;
+        }
+        .icon {
+            margin-right: 10px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .login-btn:hover {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+        }
+        .links {
+            margin-top: 15px;
+        }
+        .links a {
+            text-decoration: none;
+            color: #6a11cb;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .links a:hover {
+            color: #2575fc;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <video class="avatar" autoplay loop muted>
+            <source src="loginlogo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h2>Login Into Your Account</h2>
+        
+        <form action="login.php" method="POST">
+            <label for="email"><span class="icon">📧</span> Email</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+
+            <label for="password"><span class="icon">🔒</span> Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+
+            <button type="submit" class="login-btn">Login</button>
+
+            <div class="links">
+                <a href="register.html">Create Account</a> OR <a href="forgot-password.html">Forgot Password</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

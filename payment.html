@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .payment-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+            text-align: left;
+        }
+        .order-summary {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .order-summary img {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+        .payment-details {
+            margin: 10px 0;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Payment</h1>
+    </header>
+
+    <div class="payment-container">
+        <h2>Order Summary</h2>
+        <div class="order-summary">
+            <img id="productImage" src="" alt="Product Image">
+            <div class="order-info">
+                <h3 id="productTitle"></h3>
+                <p>Quantity: <span id="productQuantity"></span></p>
+                <p>Total: <span id="totalAmount"></span> Rs</p>
+            </div>
+        </div>
+
+        <h2>Select Payment Method</h2>
+        <form id="paymentForm">
+            <label>
+                <input type="radio" name="paymentMethod" value="card" checked> Credit/Debit Card
+            </label>
+            <div class="payment-details" id="cardDetails">
+                <input type="text" id="cardNumber" placeholder="Card Number" required>
+                <input type="text" id="cardHolder" placeholder="Card Holder Name" required>
+                <input type="text" id="expiryDate" placeholder="MM/YY" required>
+                <input type="text" id="cvv" placeholder="CVV" required>
+            </div>
+
+            <label>
+                <input type="radio" name="paymentMethod" value="upi"> UPI
+            </label>
+            <div class="payment-details" id="upiDetails" style="display: none;">
+                <input type="text" id="upiId" placeholder="Enter UPI ID">
+            </div>
+
+            <label>
+                <input type="radio" name="paymentMethod" value="netbanking"> Net Banking
+            </label>
+            <div class="payment-details" id="netbankingDetails" style="display: none;">
+                <select id="bankSelect">
+                    <option value="">Select Your Bank</option>
+                    <option value="SBI">SBI</option>
+                    <option value="HDFC">HDFC</option>
+                    <option value="ICICI">ICICI</option>
+                    <option value="Axis">Axis</option>
+                </select>
+            </div>
+
+            <label>
+                <input type="radio" name="paymentMethod" value="cod"> Cash on Delivery (COD)
+            </label>
+
+            <button type="submit">Pay Now</button>
+        </form>
+    </div>
+
+    <script>
+        // Get product details from URL parameters
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById("productTitle").innerText = params.get("title");
+        document.getElementById("productImage").src = params.get("image");
+        document.getElementById("productQuantity").innerText = params.get("quantity");
+        document.getElementById("totalAmount").innerText = params.get("price");
+
+        // Function to show/hide payment details and disable validation for hidden fields
+        function updatePaymentDetails() {
+            const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            document.getElementById("cardDetails").style.display = selectedMethod === "card" ? "block" : "none";
+            document.getElementById("upiDetails").style.display = selectedMethod === "upi" ? "block" : "none";
+            document.getElementById("netbankingDetails").style.display = selectedMethod === "netbanking" ? "block" : "none";
+
+            // Disable required attributes for hidden inputs
+            document.getElementById("cardNumber").required = selectedMethod === "card";
+            document.getElementById("cardHolder").required = selectedMethod === "card";
+            document.getElementById("expiryDate").required = selectedMethod === "card";
+            document.getElementById("cvv").required = selectedMethod === "card";
+
+            document.getElementById("upiId").required = selectedMethod === "upi";
+
+            document.getElementById("bankSelect").required = selectedMethod === "netbanking";
+        }
+
+        // Add event listeners to update payment details when payment method changes
+        document.querySelectorAll('input[name="paymentMethod"]').forEach((radio) => {
+            radio.addEventListener("change", updatePaymentDetails);
+        });
+
+        // Validate and submit the form
+        document.getElementById("paymentForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            alert("Payment Successful! Your order has been placed.");
+            window.location.href = "order-success.html"; // Redirect to success page
+        });
+
+        // Initial setup
+        updatePaymentDetails();
+    </script>
+</body>
+</html>

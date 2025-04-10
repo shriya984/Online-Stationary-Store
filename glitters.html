@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glitters</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <header>
+        <h1>Glitters</h1>
+        <a href="index.html">Back to Home</a>
+  <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search items..." onkeyup="searchItems()">
+            <button onclick="searchItems()">Search</button>
+        </div>
+    </header>
+  <div class="sorting">
+        <label for="sort">Sort by: </label>
+        <select id="sort" onchange="sortItems()">
+            <option value="low-high">Price: Low to High</option>
+            <option value="high-low">Price: High to Low</option>
+        </select>
+    </div>
+    <p>Find the best glitters for your art projects.</p>
+ <div class="items">
+            <div class="item" onclick="openModal('unicorn-glitter water pen', 'High-quality markers for all your art needs.', 'unicorn-glitter water pen.jpg', 50)">
+                <img src="unicorn-glitter water pen.jpg" alt="unicorn-glitter water pen">
+                <h3>unicorn-glitter water pen</h3>
+                <p class="price">50 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+  <div class="item" onclick="openModal('glitter sticker', 'Soft bristle paintbrush for smooth strokes.', 'glitter sticker.jpg', 80)">
+                <img src="glitter sticker.jpg" alt="glitter sticker">
+                <h3>glitter sticker</h3>
+                <p class="price">80 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+<div class="item" onclick="openModal('glitter tape', 'Soft bristle paintbrush for smooth strokes.', 'glitter tape.jpg', 30)">
+                <img src="glitter tape.jpg" alt="glitter tape">
+                <h3>glitter tape</h3>
+                <p class="price">30 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+<div class="item" onclick="openModal('glitter paper', 'Soft bristle paintbrush for smooth strokes.', 'glitter paper.jpg', 20)">
+                <img src="glitter paper.jpg" alt="glitter paper">
+                <h3>glitter paper</h3>
+                <p class="price">20 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+</div>
+<!-- Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="productTitle"></h2>
+            <img id="productImage" src="" alt="Product Image" class="modal-img">
+            <p id="productDescription"></p>
+            <p id="productPrice" class="product-price"></p>
+            
+            <div class="quantity-wrapper">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" value="1" min="1">
+            </div>
+            
+            <button class="cart-btn" onclick="addToCart()">🛒 Add to Cart</button>
+            <button class="buy-btn" onclick="buyNow()">Buy Now</button>
+        </div>
+    </div>
+    
+    <script>
+        function searchItems() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let items = document.querySelectorAll(".item");
+            items.forEach(item => {
+                let title = item.querySelector("h3").innerText.toLowerCase();
+                item.style.display = title.includes(input) ? "block" : "none";
+            });
+        }
+
+       function sortItems() {
+            let itemsContainer = document.querySelector(".items");
+            let items = Array.from(itemsContainer.getElementsByClassName("item"));
+
+            let sortOrder = document.getElementById("sort").value;
+
+            items.sort((a, b) => {
+                let priceA = parseInt(a.querySelector(".price").innerText.replace(" Rs", ""));
+                let priceB = parseInt(b.querySelector(".price").innerText.replace(" Rs", ""));
+
+                return sortOrder === "low-high" ? priceA - priceB : priceB - priceA;
+            });
+
+            itemsContainer.innerHTML = "";
+            items.forEach(item => itemsContainer.appendChild(item));
+        }
+
+        function openModal(title, description, image, price) {
+            document.getElementById("productTitle").innerText = title;
+            document.getElementById("productDescription").innerText = description;
+            document.getElementById("productImage").src = image;
+            document.getElementById("productPrice").innerText = price + " Rs";
+            document.getElementById("quantity").value = 1;
+            document.getElementById("productModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("productModal").style.display = "none";
+        }
+
+        function addToCart() {
+            let title = document.getElementById("productTitle").innerText;
+            let price = document.getElementById("productPrice").innerText;
+            let image = document.getElementById("productImage").src;
+            let quantity = document.getElementById("quantity").value;
+            
+            let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            let existingItem = cartItems.find(item => item.title === title);
+            
+            if (existingItem) {
+                existingItem.quantity = parseInt(existingItem.quantity) + parseInt(quantity);
+            } else {
+                cartItems.push({ title, price, image, quantity });
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cartItems));
+            alert("Product added to cart!");
+        }
+function buyNow() {
+    let title = document.getElementById('productTitle').innerText;
+    let price = document.getElementById('productPrice').innerText.replace(" Rs", "");
+    let image = document.getElementById('productImage').src;
+    let quantity = document.getElementById('quantity').value;
+
+    window.location.href = `checkout.html?title=${encodeURIComponent(title)}&image=${encodeURIComponent(image)}&price=${price}&quantity=${quantity}`;
+}
+
+    </script>
+</body>
+</html>
+
+
+</body>
+</html>

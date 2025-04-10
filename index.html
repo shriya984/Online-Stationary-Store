@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Stationery Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="stationery-store.jpg" alt="Logo">
+        </div>
+        <div class="title">Online Stationery Store</div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search items..." onkeyup="searchItems()">
+            <button onclick="searchItems()">Search</button>
+        </div>
+  
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#">Art Supplies</a>
+                <div class="dropdown">
+                   <a href="paint.html">Paints</a>
+                    <div class="submenu">
+                        <a href="watercolours.html">Water Colours</a>
+                        <a href="postercolour.html">Poster Colours</a>
+                        <a href="acrylicColour.html">Acrylic Colours</a>
+                    </div>
+                    <a href="glitters.html">Glitters</a>
+                    <a href="colourpaper.html">Colored Papers</a>
+                    <a href="stickers.html">Stickers</a>
+                    <a href="brushes.html">Brushes</a>
+                    <a href="canvas.html">Canvas</a>
+                </div>
+            </li>
+            <li><a href="#">Office Supplies</a>
+                <div class="dropdown">
+                    <a href="Files & Folders.html">Files & Folders</a>
+                    <a href="Staplers.html">Staplers</a>
+                    <a href="Paper Weight.html">Paper Weight</a>
+                    <a href="Office Bells.html">Office Bells</a>
+                    <a href="Pen Stand.html">Pen Stand</a>
+                </div>
+
+            </li>
+            <li><a href="#">School Supplies</a>
+                 <div class="dropdown">
+                    <a href="notebook.html">Notebooks</a>
+                    <a href="Stationary.html">Stationary</a>
+                    <a href="Other.html">Other</a>
+                </div>
+            </li>
+            <li><a href="#">Craft Materials</a>
+                <div class="dropdown">
+                    <a href="glitters.html">Glitters</a>
+                    <a href="colourpaper.html">Colored Papers</a>
+                    <a href="stickers.html">Stickers</a>
+                </div>
+               </li>
+        <li><a href="add-to-cart.html">🛒 View Cart</a></li>
+    </ul>
+</nav>
+
+    <div class="sorting">
+        <label for="sort">Sort by: </label>
+        <select id="sort" onchange="sortItems()">
+            <option value="low-high">Price: Low to High</option>
+            <option value="high-low">Price: High to Low</option>
+        </select>
+    </div>
+
+    <div class="content">
+        <h1>Welcome to the Online Stationery Store!</h1>
+        <p>Find all your stationery needs, from art supplies to office essentials, in one place.</p>
+
+        <div class="items">
+            <div class="item" onclick="openModal('Markers', 'High-quality markers for all your art needs.', 'marker.png', 50)">
+                <img src="marker.png" alt="Markers">
+                <h3>Markers</h3>
+                <p class="price">50 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+            <div class="item" onclick="openModal('Paint Brush', 'Soft bristle paintbrush for smooth strokes.', 'paintbrush.png', 80)">
+                <img src="paintbrush.png" alt="Paint Brush">
+                <h3>Paint Brush</h3>
+                <p class="price">80 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+            <div class="item" onclick="openModal('Paints & Colours', 'A variety of vibrant colors for your art.', 'Paints&Colours.png', 50)">
+                <img src="Paints&Colours.png" alt="Paints & Colours">
+                <h3>Paints & Colours</h3>
+                <p class="price">50 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+
+            <div class="item" onclick="openModal('Canvas Boards', 'Durable canvas boards for professional and beginner artists.', 'Canvas Boards.png', 150)">
+                <img src="Canvas Boards.png" alt="Canvas Boards">
+                <h3>Canvas Boards</h3>
+                <p class="price">150 Rs</p>
+                <button class="cart-btn">View Details</button>
+            </div>
+       <div class="item" onclick="openModal('Easels', 'Adjustable easels for comfortable painting.', 'easels.png', 225)">
+        <img src="easels.png" alt="Easels">
+        <h3>Easels</h3>
+         <p class="price">225 Rs</p>
+            <button class="cart-btn">View Details</button>
+    </div>
+
+    <div class="item" onclick="openModal('Sketching Tools', 'Complete set of sketching tools for artists.', 'Sketching tools.png', 125)">
+        <img src="Sketching tools.png" alt="Sketching Tools">
+        <h3>Sketching Tools</h3>
+         <p class="price">125 Rs</p>
+             <button class="cart-btn">View Details</button>
+    </div>
+
+    <div class="item" onclick="openModal('Palettes & Knives', 'Mixing palettes and palette knives for acrylic and oil painting.', 'Palettes&knives.png', 150)">
+        <img src="Palettes&knives.png" alt="Palettes & Knives">
+        <h3>Palettes & Knives</h3>
+         <p class="price">150 Rs</p>
+            <button class="cart-btn">View Details</button>
+    </div>
+
+    <div class="item" onclick="openModal('Pens & Markers', 'High-quality pens and markers for artwork.', 'Pens & Markers.png', 250)">
+        <img src="Pens & Markers.png" alt="Pens & Markers">
+        <h3>Pens & Markers</h3>
+         <p class="price">250 Rs</p>
+           <button class="cart-btn">View Details</button>
+    </div>
+
+    <div class="item" onclick="openModal('Other Tools', 'Various essential art tools for professionals and students.', 'Other tools.png', 1000)">
+        <img src="Other tools.png" alt="Other Tools">
+        <h3>Other Tools</h3>
+         <p class="price">1000 Rs</p>
+            <button class="cart-btn">View Details</button>
+    </div>
+</div>
+
+</div>
+    <!-- Modal -->
+ <!-- Modal -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="productTitle"></h2>
+        <img id="productImage" src="" alt="Product Image" class="modal-img">
+        <p id="productDescription"></p>
+        <p id="productPrice" class="product-price"></p>
+
+        <!-- Quantity Input -->
+        <div class="quantity-wrapper">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" value="1" min="1">
+        </div>
+
+        <!-- Add to Cart Button -->
+    <button class="cart-btn" onclick="addToCart()">🛒Add to Cart</button>
+
+
+        <!-- Buy Now Button -->
+        <button class="buy-btn" onclick="buyNow()">Buy Now</button>
+    </div>
+</div>
+
+
+    <script>
+      function openModal(title, description, image, price) {
+    document.getElementById('productTitle').innerText = title;
+    document.getElementById('productDescription').innerText = description;
+    document.getElementById('productImage').src = image;
+    document.getElementById('productPrice').innerText = price + " Rs";
+
+    // Reset quantity to 1 when opening the modal
+    document.getElementById('quantity').value = 1;
+
+    document.getElementById('productModal').style.display = "block";
+}
+
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = "none";
+        }
+
+        function addToCart() {
+            alert("Product added to cart!");
+            closeModal();
+        }
+
+        function sortItems() {
+            let itemsContainer = document.querySelector(".items");
+            let items = Array.from(itemsContainer.getElementsByClassName("item"));
+
+            let sortOrder = document.getElementById("sort").value;
+
+            items.sort((a, b) => {
+                let priceA = parseInt(a.querySelector(".price").innerText.replace(" Rs", ""));
+                let priceB = parseInt(b.querySelector(".price").innerText.replace(" Rs", ""));
+
+                return sortOrder === "low-high" ? priceA - priceB : priceB - priceA;
+            });
+
+            itemsContainer.innerHTML = "";
+            items.forEach(item => itemsContainer.appendChild(item));
+        }
+function addToCart() {
+    let title = document.getElementById('productTitle').innerText;
+    let price = document.getElementById('productPrice').innerText;
+    let image = document.getElementById('productImage').src;
+    let quantity = document.getElementById('quantity').value;
+
+    let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let existingItem = cartItems.find(item => item.title === title);
+    if (existingItem) {
+        existingItem.quantity = parseInt(existingItem.quantity) + parseInt(quantity);
+    } else {
+        cartItems.push({ title, price, image, quantity });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+    alert("Product added to cart!");
+}
+function searchItems() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let items = document.querySelectorAll(".item");
+
+    items.forEach(item => {
+        let title = item.querySelector("h3").innerText.toLowerCase();
+        if (title.includes(input)) {
+            item.style.display = "block"; // Show item if it matches the search
+        } else {
+            item.style.display = "none"; // Hide item if it doesn't match
+        }
+    });
+}
+
+function buyNow() {
+    let title = document.getElementById('productTitle').innerText;
+    let price = document.getElementById('productPrice').innerText.replace(" Rs", "");
+    let image = document.getElementById('productImage').src;
+    let quantity = document.getElementById('quantity').value;
+
+    window.location.href = `checkout.html?title=${encodeURIComponent(title)}&image=${encodeURIComponent(image)}&price=${price}&quantity=${quantity}`;
+}
+
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
